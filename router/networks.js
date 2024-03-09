@@ -17,6 +17,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const network = await NetworkModel.findById(id);
+
+    if (!network) {
+      return res
+        .status(404)
+        .json({ success: false, error: "network not found" });
+    }
+
+    res.status(200).json({ success: true, network });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { error } = validateNetwork(req.body);

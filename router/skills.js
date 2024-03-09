@@ -17,6 +17,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const skill = await SkillsModel.findById(id);
+
+    if (!skill) {
+      return res.status(404).json({ success: false, error: "skill not found" });
+    }
+
+    res.status(200).json({ success: true, skill });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { error } = validateSkills(req.body);
